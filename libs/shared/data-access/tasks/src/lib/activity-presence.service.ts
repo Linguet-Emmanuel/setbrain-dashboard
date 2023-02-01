@@ -18,7 +18,7 @@ export class ActivityPresenceService {
 
   constructor(private supabaseService: SupabaseService) { }
 
-  openChannel(projectId: string) {
+  async openChannel(projectId: string) {
     const channel = this.supabaseService.supabase.channel(projectId);
     channel.on(
       'postgres_changes',
@@ -51,9 +51,9 @@ export class ActivityPresenceService {
       },
       (payload) => this.onDeleteActivity((payload as RealtimePostgresDeletePayload<Activity>)?.old.id)
     );
-    channel.subscribe(async (status) => {
+    await channel.subscribe(async (status) => {
       if (status == 'SUBSCRIBED') {
-        this.getAllActivities();
+        await this.getAllActivities();
       }
     });
     this.channels.push(channel);
@@ -85,13 +85,15 @@ export class ActivityPresenceService {
   }
 
   async getAllActivities() {
-    const { data, error } = await this.supabaseService.supabase.from('activities').select('*');
+    const { data, error } = await this.supabaseService.supabase.from('activities')
+      .select('*, task(*)');
     if(error) throw error;
     this.ativities = data;
+    this.emitChanges();
     return this.ativities;
   }
 
-  onUpdateActivity(activityId: number | undefined, newActivity: Activity) {
+  private onUpdateActivity(activityId: number | undefined, newActivity: Activity) {
     if(!activityId) return;
     const oldActivity = this.ativities.find(activity => activity.id === activityId);
     if(!oldActivity) return;
@@ -101,13 +103,13 @@ export class ActivityPresenceService {
     this.emitChanges();
   }
 
-  onAddActivity(activity: Activity | undefined) {
+  private onAddActivity(activity: Activity | undefined) {
     if(!activity) return;
     this.ativities.push(activity);
     this.emitChanges();
   }
 
-  onDeleteActivity(activityId: number | undefined) {
+  private onDeleteActivity(activityId: number | undefined) {
     if(!activityId) return;
     const activity = this.ativities.find(activity => activity.id === activityId);
     if(!activity) return;

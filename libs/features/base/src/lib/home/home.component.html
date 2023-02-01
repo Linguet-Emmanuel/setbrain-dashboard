@@ -15,4 +15,9 @@
     </div>
     <span class="py-4" *ngIf="!(assignedTasks !== undefined && assignedTasks.length > 0)">Aucune tâche récente pour le moment</span>
   </section>
+  <section class="flex flex-col bg-darkgrey-100 border-grey-72 border-2 rounded-3xl w-[41rem] h-52 px-2 py-3 flex-wrap gap-x-1 gap-y-3 content-start" *ngIf="activities">
+    <div *ngFor="let activity of activities.slice(0, 11)" class="w-52">
+      <setbrain-dashboard-activity [activity]="activity" [connectedUser]="connectedUser"></setbrain-dashboard-activity>
+    </div>
+  </section>
 </main>

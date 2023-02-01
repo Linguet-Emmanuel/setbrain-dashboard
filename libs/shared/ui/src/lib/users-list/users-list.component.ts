@@ -12,10 +12,19 @@ export class UsersListComponent implements OnChanges {
   @Input() connectedUser: Profile | undefined;
   @Input() connectedUserColor = 'blue-100';
   @Input() height = '6';
+  noConnectedUsers: BannerProfile[] | Profile[] | undefined;
+  connectedUserIsAssigned = false;
 
   ngOnChanges() {
-    if (this.connectedUser && this.users) {
-      this.users.splice(this.users?.findIndex(element => this.connectedUser?.id === element.id), 1);
+    if (this.users) {
+      this.noConnectedUsers = this.users;
+      this.connectedUserIsAssigned = this.users.some(element => {
+        return element.id === this.connectedUser?.id;
+      });
+
+      if(this.connectedUserIsAssigned) {
+        this.noConnectedUsers.splice(this.noConnectedUsers?.findIndex(element => this.connectedUser?.id === element.id), 1);
+      }
     }
   }
 }

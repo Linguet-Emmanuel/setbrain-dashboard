@@ -11,6 +11,7 @@ import {BannerProfile, Profile, UsersService} from "@setbrain-dashboard/shared/d
 export class ActivityComponent  implements OnInit{
   @Input() activity: Activity | undefined;
   @Input() share = false;
+  @Input() connectedUser: Profile | undefined;
   users: BannerProfile[] = [];
   taskUsers: BannerProfile[] | Profile[] | undefined;
   softwares = sofwares;
@@ -22,7 +23,9 @@ export class ActivityComponent  implements OnInit{
       this.usersService.getBannerOfUsers(this.activity?.users_id).then(response => {
         this.users = response;
       });
-      this.taskUsers = this.activity.task.assigned_users as BannerProfile[] | Profile[];
+      this.usersService.getBannerOfUsers(this.activity?.task.assigned_users as string[]).then(response => {
+        this.taskUsers = response;
+      });
     }
   }
 }
