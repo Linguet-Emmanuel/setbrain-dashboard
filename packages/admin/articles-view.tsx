@@ -29,7 +29,7 @@ export const ArticlesView = ({ projectId }: ArticlesViewProps) => {
     };
 
     return (
-        <div className="flex flex-col gap-3 h-full">
+        <div className="flex flex-col gap-3 h-full w-full">
             <div className="flex w-full items-center justify-between">
                 <h1 className="text-subtitle-sb">Articles</h1>
 

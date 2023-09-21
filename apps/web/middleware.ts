@@ -28,7 +28,7 @@ export async function middleware(req: NextRequest) {
             .from('projects')
             .select('id')) as unknown as { data: { id: string }[] };
 
-        if (!data) return NextResponse.redirect('/');
+        if (!data) return NextResponse.redirect('/login');
         url.pathname = `/project/${data[0].id}/home`;
         return NextResponse.redirect(url);
     } else if (url.pathname.startsWith('/project')) {

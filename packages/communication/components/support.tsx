@@ -2,15 +2,31 @@ import React from 'react';
 import { getSupportMessages } from 'utils/support';
 import { SupportItem, SupportItemSkeleton } from './support-item';
 
-export const Support = (async () => {
+interface SupportProps {
+    background?: boolean;
+}
+
+export const Support = (async ({ background }: SupportProps) => {
     const messages = await getSupportMessages();
+    const backgroundClass = background
+        ? 'px-3.5 py-6 bg-darkgrey-100 rounded-3xl border-2 border-darkgrey-48'
+        : '';
 
     return (
-        <div className="flex flex-col w-full rounded-3xl py-4 px-[14px] h-full justify-between">
-            <div>
-                <div className="w-full h-fit py-4 rounded-t-3xl">
-                    <h1>Support</h1>
-                </div>
+        <div
+            className={
+                'flex flex-col w-full rounded-3xl py-4 px-[14px] h-full justify-between ' +
+                background
+                    ? ''
+                    : 'px-4 px-[14px]'
+            }
+        >
+            <div className="w-full h-fit pb-4 rounded-t-3xl">
+                <h1 className={background ? 'text-subtitle-sb' : ''}>
+                    Support
+                </h1>
+            </div>
+            <div className={backgroundClass}>
                 {messages.length > 0 ? (
                     messages.length > 3 ? (
                         messages.map((message, index) => (
@@ -34,17 +50,19 @@ export const Support = (async () => {
                     </div>
                 )}
             </div>
-            <div className="w-full flex justify-center">
-                <a
-                    href="#"
-                    className="text-white font-bold text-body-b no-underline cursor-pointer"
-                >
-                    Voir plus
-                </a>
-            </div>
+            {!background && (
+                <div className="w-full flex justify-center">
+                    <a
+                        href="#"
+                        className="text-white font-bold text-body-b no-underline cursor-pointer"
+                    >
+                        Voir plus
+                    </a>
+                </div>
+            )}
         </div>
     );
-}) as unknown as () => JSX.Element;
+}) as unknown as (props: SupportProps) => JSX.Element;
 
 export const SupportSkeleton = () => {
     return (
