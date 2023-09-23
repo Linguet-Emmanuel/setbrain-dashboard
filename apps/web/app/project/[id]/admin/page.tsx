@@ -11,7 +11,7 @@ export default function Admin({ params: { id } }: { params: { id: string } }) {
                 <MobileMenu />
             </Suspense>
             <AdminHead></AdminHead>
-            <div className="flex gap-6">
+            <div className="flex gap-5">
                 <ArticlesView projectId={id}></ArticlesView>
                 <div className="w-[326px]">
                     <Support background={true} />
