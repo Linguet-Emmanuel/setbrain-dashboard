@@ -10,7 +10,7 @@ export const Communication = () => {
             </h1>
             <div className="bg-darkgrey-100 border-[1px] border-darkgrey-48 rounded-3xl h-full flex flex-col">
                 <Chat />
-                <Support />
+                <Support background={false} />
             </div>
         </div>
     );

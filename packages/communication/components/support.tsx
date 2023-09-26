@@ -6,7 +6,7 @@ interface SupportProps {
     background?: boolean;
 }
 
-export const Support = (async ({ background=false}: SupportProps) => {
+export const Support = (async ({ background = false }: SupportProps) => {
     const messages = await getSupportMessages();
     const backgroundClass = background
         ? 'px-3.5 py-6 bg-darkgrey-100 rounded-3xl border-2 border-darkgrey-48'
@@ -15,7 +15,8 @@ export const Support = (async ({ background=false}: SupportProps) => {
     return (
         <div
             className={
-                'flex flex-col w-full rounded-3xl py-4 px-[14px] h-full justify-between '}
+                `flex flex-col w-full rounded-3xl h-full justify-between ${background ? 'md:py-4 md:px-[14px]' : 'py-4 px-[14px]'}`
+            }
         >
             <div className="w-full h-fit pb-4 rounded-t-3xl">
                 <h1 className={background ? 'text-subtitle-sb' : ''}>
